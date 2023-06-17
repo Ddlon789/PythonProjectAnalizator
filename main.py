@@ -84,9 +84,13 @@ for i in text['messages']:                                              #цик�
         data.append([i['id'], i['date'], i['media_type'], i['from'], i['performer'] + '_' + i['title'], dur])
         continue
 
-# if len(data[0]) == 5:
-#     for item in data:
-#         item.append(0);
+ll = 0
+for item in data:
+   if len(item) > ll:
+       ll = len(item)
+if ll == 5:
+    for item in data:
+        item.append(0)
 cols = ['id', 'date', 'type', 'from', 'text', 'seconds']              #формируем колонки
 df = pd.DataFrame(data, columns=cols)
 df.to_csv("res.csv")                                                  #конвертируем получившийся dataframe в сsv-файл, для различных нужд и сохраняем в файл в корне
@@ -290,7 +294,7 @@ plt.pie(v, colors=color, autopct="%.2f%%")
 plt.legend(labels=v.index)
 plt.savefig("res/videoMessages.png")
 file.add_picture('res/videoMessages.png', width=Inches(5), height=Inches(5))
-at(file, 'Среднее время видеосообщения: '+ str(vid['seconds'].mean().round(2)))
+at(file, 'Среднее время видеосообщения: '+ str(round(vid['seconds'].mean(), 2)))
                                                                         #статистика участников по видеосообщениям
 v_stat = vid.groupby('from')['seconds'].agg({'sum', 'mean', 'count'}).reset_index()
 at(file, "Средняя статистика по видеосообщениям в секундах")
