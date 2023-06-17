@@ -158,9 +158,6 @@ st = st.rename(columns={
                                                                         #непосредственно форматирование DataFrame и даты
 st = st.drop(['from_x', 'from_y'], axis=1)
 st[[mass_from[0]+"_count", mass_from[1]+"_count"]] = st[[mass_from[0]+"_count", mass_from[1]+"_count"]].astype('int')
-# print(st.mon_day_hou)
-# st['mon_day_hou'] = st['mon_day_hou'].apply(lambda x: diction[str(x[:2])] + x[2:])
-# st['mon_day_hou'] = st['mon_day_hou'].apply(lambda x: str(int(str(x)[-2:])) + str(x)[:-2])
 st['mon_day_hou'] = st['mon_day_hou'].apply(lambda x: x[8:] + " " + diction[str(x[5:7])] + " " + x[:4])
                                                                         #создание бара по каждому собеседнику по каждому дню
 fig, ax = plt.subplots(figsize=(14, 7))
@@ -197,8 +194,6 @@ msd = st.sort_values('all_count', ascending=True).reset_index(drop=True).loc[0:4
 create_table(msd, file)
 
 ui = times['mon_day_hou'].value_counts().sort_index().to_frame().reset_index().rename(columns={'index':'mon_day_hou', 'mon_day_hou':'count'})
-# ui['mon_day_hou'] = ui['mon_day_hou'].apply(lambda x: diction[str(x[:2])] + x[2:])
-# ui['mon_day_hou'] = ui['mon_day_hou'].apply(lambda x: str(int(str(x)[-2:])) + str(x)[:-2])
 ui['mon_day_hou'] = ui['mon_day_hou'].apply(lambda x: x[8:] + " " + diction[str(x[5:7])] + " " + x[:4])
                                                                         #создание графика развития переписки
 plt.figure(figsize=(16, 8))
